@@ -13,15 +13,22 @@ var App = {
 
     // Fetch initial batch of messages
     App.startSpinner();
-    App.fetch(App.stopSpinner);
+    App.fetch(App.stopSpinner());
 
   },
 
   fetch: function(callback = ()=>{}) {
+
+    var show = {};
+
     Parse.readAll((data) => {
       // examine the response from the server request:
-      console.log(data);
+      for (var i = 0; i < data.results.length; i++) {
+        MessagesView.renderMessage(data.results[i]);
+      }
 
+      // MessagesView.renderMessage(data);
+      console.log(data.results);
       callback();
     });
   },
@@ -36,3 +43,6 @@ var App = {
     FormView.setStatus(false);
   }
 };
+
+//console.log(App.fetch.data);
+
